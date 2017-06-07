@@ -1,4 +1,5 @@
 import { NgModule }      from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule} from '@angular/forms';
@@ -10,7 +11,7 @@ import {ProductService} from "./services/product-service";
 import {myComponents} from "./componentList";
 
 @NgModule({
-    imports:      [ BrowserModule , ReactiveFormsModule, 
+    imports:      [ BrowserModule , FormsModule, ReactiveFormsModule, 
     RouterModule.forRoot([
         {path: '', component: HomeComponent},
         {path: 'products/:prodId', component: ProductDetailComponent}

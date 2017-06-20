@@ -1,0 +1,20 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li *ngFor="let entry of alphas">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{entry[0]}} <span *ngIf="entry[1].length > 0" class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let subEntry of entry[1]"><a href="#">{{subEntry}}</a></li>
+                </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+    <div class="row">
+        Hello World!
+    </div>
+</div>

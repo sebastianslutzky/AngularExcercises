@@ -6,6 +6,7 @@ import { ReactiveFormsModule} from '@angular/forms';
 import ApplicationComponent from './components/application/application';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {myComponents} from "./componentList";
+import {Draggable} from 'node_modules/ng2draggable/draggable.directive';
 
 @NgModule({
     imports:      [ BrowserModule , FormsModule, ReactiveFormsModule ],

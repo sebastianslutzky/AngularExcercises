@@ -2,8 +2,20 @@ import {Component, ViewEncapsulation} from '@angular/core';
 
 export class FxService{
   getRootServices(){
-    return [["saludo",["hello","holasss","ciao!"]],["mundo",[]],["cancion",["lalal","laraiiiilaraaaaa?"]]];
+    //return [["saludo",["hello","holasss","ciao!"]],["mundo",[]],["cancion",["lalal","laraiiiilaraaaaa?"]]];
+    return [
+      new RootService("ServiceOne",["ActionOneOne","ActionOneTwo"]),
+      new RootService("ServiceTwo",["ActionTwoOne","ActionTwoTwo"]),
+      new RootService("ServiceThree",["ActionThreeOne"])
+    ]
   }
+}
+
+class RootService{
+  constructor(
+    public name: string,
+    public actions: string[],
+  ){}
 }
 
 
@@ -18,7 +30,6 @@ export default class ApplicationComponent{
   alphas: any;
 
   constructor(public svc: FxService){
-      //alphas = [["saludo",["hello","hola"]],["mundo",[]],["cancion",["lalal","laraiiiilaraaaaa?"]]];
       this.alphas = svc.getRootServices();
   }
 }

@@ -1,4 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
+import {IActionInvocationRequest} from "./events/IActionInvocationRequest"
 
 export class FxService{
   getRootServices(){
@@ -31,6 +32,10 @@ export default class ApplicationComponent{
 
   constructor(public svc: FxService){
       this.alphas = svc.getRootServices();
+  }
+
+  invokeActionHandler(event: IActionInvocationRequest){
+    alert("recieved event!" + event.actionName)
   }
 }
 

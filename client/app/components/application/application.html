@@ -7,7 +7,9 @@
       <li *ngFor="let service of alphas">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{service.name}} <span *ngIf="service.actions.length > 0" class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li *ngFor="let subEntry of service.actions"><a href="#">{{subEntry}}</a></li>
+                  <div *ngFor="let menuItem of service.actions">
+                    <menu-action [Title]="menuItem" (invokeAction)="invokeActionHandler($event)" ></menu-action>
+                   </div>
                 </ul>
       </li>
     </ul>

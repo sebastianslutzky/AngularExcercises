@@ -1,5 +1,5 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {IActionInvocationRequest} from "./events/IActionInvocationRequest"
+import {Component, ViewEncapsulation,ViewChild,ElementRef,ComponentRef, ViewContainerRef,ReflectiveInjector,ComponentFactoryResolver} from '@angular/core';
+import EntityComponent from "app/components/entity/entity" 
 
 export class FxService{
   getRootServices(){
@@ -19,7 +19,6 @@ class RootService{
   ){}
 }
 
-
 @Component({
   providers: [FxService],
   selector: 'auction-application', // <1>
@@ -30,12 +29,29 @@ class RootService{
 export default class ApplicationComponent{ 
   alphas: any;
 
-  constructor(public svc: FxService){
+@ViewChild('placeHolder', {read: ViewContainerRef}) private _placeHolder: ElementRef;
+  constructor(public svc: FxService,private _cmpFctryRslvr: ComponentFactoryResolver){
       this.alphas = svc.getRootServices();
   }
 
   invokeActionHandler(event: IActionInvocationRequest){
     alert("recieved event!" + event.actionName)
+    //create EntityComponent and render here
+    let cmp = this.createComponent(this._placeHolder, EntityComponent);
+    this._placeHolder.insert(cmp.hostView);
+  }
+
+  public createComponent (vCref: ViewContainerRef, type: any): ComponentRef {
+
+    let factory = this._cmpFctryRslvr.resolveComponentFactory(type);
+
+    // vCref is needed cause of that injector..
+    let injector = ReflectiveInjector.fromResolvedProviders([], vCref.parentInjector);
+
+    // create component without adding it directly to the DOM
+    let comp = factory.create(injector);
+
+    return comp;
   }
 }
 

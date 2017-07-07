@@ -5,22 +5,22 @@ import {RouterModule, Routes} from '@angular/router';
 
 @Component({
   selector: 'menu-action', // <1>
-  template: `<li><a (click)="invokeMethod()">{{Title}}</a></li>`,
+  template: `<li><a (click)="invokeMethod()">{{ActionName}}</a></li>`,
   styles: ["a:hover { cursor: pointer; }"],
   encapsulation:ViewEncapsulation.None
 })
 export default class MenuActionComponent{ 
     @Input() 
-    Title: string;
+    ServiceName: string;
+    @Input() 
+    ActionName: string;
 
     @Output()
     invokeAction: EventEmitter<IActionInvocationRequest> = new EventEmitter();
 
-
     invokeMethod(){
-        alert("invoking " + this.Title + "!!")
         let actionInvocation: IActionInvocationRequest = {
-            actionName: this.Title 
+            actionName: this.ActionName 
         }
 
         this.invokeAction.emit(actionInvocation)

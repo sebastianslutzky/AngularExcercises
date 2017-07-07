@@ -3,12 +3,25 @@ import EntityComponent from "app/components/entity/entity"
 
 export class FxService{
   getRootServices(){
-    //return [["saludo",["hello","holasss","ciao!"]],["mundo",[]],["cancion",["lalal","laraiiiilaraaaaa?"]]];
     return [
       new RootService("ServiceOne",["ActionOneOne","ActionOneTwo"]),
       new RootService("ServiceTwo",["ActionTwoOne","ActionTwoTwo"]),
       new RootService("ServiceThree",["ActionThreeOne"])
     ]
+  }
+
+  invokeRootAction(actionName: string){
+      if(actionName === "ActionOneTwo")
+        return;
+      return new EntityModel(actionName + 'Entity',"A " + actionName)
+  }
+}
+
+export class EntityModel{
+  static instanceCount =0;
+  constructor(public name: string, public title: string){
+    this.title += '#' + EntityModel.instanceCount;
+    EntityModel.instanceCount++;
   }
 }
 
@@ -35,18 +48,24 @@ export default class ApplicationComponent{
   }
 
   invokeActionHandler(event: IActionInvocationRequest){
-    alert("recieved event!" + event.actionName)
     //create EntityComponent and render here
-    let cmp = this.createComponent(this._placeHolder, EntityComponent);
-    this._placeHolder.insert(cmp.hostView);
+    let resultEntity = this.svc.invokeRootAction(event.actionName);
+    if(resultEntity){
+      let cmp = this.createComponent(this._placeHolder, EntityComponent,resultEntity);
+      this._placeHolder.insert(cmp.hostView);
+    }
   }
 
-  public createComponent (vCref: ViewContainerRef, type: any): ComponentRef {
+  public createComponent (vCref: ViewContainerRef, type: any, inputData: any): ComponentRef {
+     let inputProviders = Object.keys(inputData).map((inputName) => {
+       return {
+         provide: inputName, useValue: inputData[inputName]};});
+      
+   let  resolvedInputs = ReflectiveInjector.resolve(inputProviders);
+   let injector = ReflectiveInjector.fromResolvedProviders(resolvedInputs, 
+        vCref.parentInjector);
 
     let factory = this._cmpFctryRslvr.resolveComponentFactory(type);
-
-    // vCref is needed cause of that injector..
-    let injector = ReflectiveInjector.fromResolvedProviders([], vCref.parentInjector);
 
     // create component without adding it directly to the DOM
     let comp = factory.create(injector);

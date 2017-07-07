@@ -5,4 +5,3 @@ export class ComponentFactory{
     return MenuActionComponent;
   }
 }
-

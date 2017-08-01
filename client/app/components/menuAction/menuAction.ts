@@ -5,7 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 @Component({
   selector: 'menu-action', // <1>
-  template: `<li><a (click)="invokeMethod()">{{ActionName}}</a></li>`,
+  template: `<li> <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{this.getFriendlyName(menu)}}</a></li>`,
   styles: ["a:hover { cursor: pointer; }"],
   encapsulation:ViewEncapsulation.None
 })

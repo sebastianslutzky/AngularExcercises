@@ -4,14 +4,8 @@
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
     <ul class="nav navbar-nav">
-      <li *ngFor="let service of alphas">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{service.name}} <span *ngIf="service.actions.length > 0" class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <div *ngFor="let menuItem of service.actions">
-                    <menu-action [ActionName]="menuItem" [ServiceName]="service.name" (invokeAction)="invokeActionHandler($event)" ></menu-action>
-                   </div>
-                </ul>
-      </li>
+      <top-menu *ngFor="let menu of this.menus" [dryResource]='menu'>
+      </top-menu>
     </ul>
   </div>
 </nav>

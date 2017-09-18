@@ -4,12 +4,14 @@
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
     <ul class="nav navbar-nav">
-      <top-menu *ngFor="let menu of this.menus" [dryResource]='menu'>
+        <ng-container *ngFor="let menu of topMenuCategories; let i = index;">
+       <top-menu #topmenu (onTopMenuObsolete)="handleOnTopMenuObsolete(i)" [name]='menu' [items]='menuItems(menu)'>
       </top-menu>
+        </ng-container>
     </ul>
   </div>
 </nav>
-WebSiteName
+TODO:WebsiteName
       <template #placeHolder>
       </template>
 <style>

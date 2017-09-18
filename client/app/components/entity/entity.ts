@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 
 @Component({
-  selector: 'entity', // <1>
+  selector: 'entity', 
   template: `<div [ng2-draggable]="true"> <h1><b>{{title}}</b></h1><p>({{name}})</div>`,
   encapsulation:ViewEncapsulation.None
 })

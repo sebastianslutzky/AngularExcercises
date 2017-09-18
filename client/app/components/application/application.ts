@@ -1,11 +1,10 @@
-import {Component, ViewEncapsulation,ViewChild,ElementRef,ComponentRef, 
+import {Component, ViewEncapsulation,ViewChild,ViewChildren,ElementRef,ComponentRef, 
   ViewContainerRef,ReflectiveInjector,ComponentFactoryResolver} from '@angular/core';
 import EntityComponent from "../../components/entity/entity" ;
 import FxService from  "../../services/fxService";
 import {Http,HttpModule,Headers,RequestOptions,RequestMethod,RequestOptionsArgs} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map" ;
-//import { AuthHttp } from 'angular2-jwt';
 import { HttpClient } from '../../services/httpService';
 
 @Component({
@@ -15,17 +14,27 @@ import { HttpClient } from '../../services/httpService';
   encapsulation:ViewEncapsulation.None
 })
 export default class ApplicationComponent{ 
-  alphas: any;
   dataSource: Observable<any>; 
-  menus: Array<any> = [];
+  menus: any;
 
-@ViewChild('placeHolder', {read: ViewContainerRef}) private _placeHolder: ElementRef;
+  topMenuCategories: Array<string>;
+
+  menuItems(menu: string){
+    var ret =  this.menus[menu];
+    return ret;
+  }
+  //TO BE USED FOR ACTION RESULTS
+   @ViewChild('placeHolder', {read: ViewContainerRef}) private _placeHolder: ElementRef;
+
+
+handleOnTopMenuObsolete(i: number){
+  this.topMenuCategories.splice(i, 1);
+}
+
+
   constructor(public svc: FxService,
               private _cmpFctryRslvr: ComponentFactoryResolver,
               private http: Http,public http2: HttpClient){
-              //  debugger;
-      this.alphas = svc.getRootServices();
-
       var invocation = new XMLHttpRequest();
 
       var url = 'http://localhost:8080/restful/services/';
@@ -36,15 +45,22 @@ export default class ApplicationComponent{
   ngOnInit(){
     this.dataSource.subscribe(data =>{
         this.menus = data.value;
-      console.log(this.menus);
-      this.menus.forEach(t=> console.log(t.title));
-    } );
+        var allMenus: Array<any> = data.value;
+        this.menus = allMenus.reduce(function(r,a){
+          r[a.title]= r[a.title]||[];
+          r[a.title].push(a);
+          return r;
+        },[]);
+
+        this.topMenuCategories = Object.keys(this.menus);
+    });
   }
 
   menuCategories(){
     let catNames = this.menus.map(m => m.title);
     return Array.from(new Set(catNames));
   }
+
 
   invokeActionHandler(event: IActionInvocationRequest){
     //create EntityComponent and render here
@@ -54,23 +70,6 @@ export default class ApplicationComponent{
       this._placeHolder.insert(cmp.hostView);
     }
   }
-
-  /*
-   createAuthorizationHeader(headers: Headers) {
-    headers.append('Authorization', 'Basic ' +
-      btoa('username:password')); 
-  }
-    */
-/*
-  get(url: string) {
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get(url, {
-      headers: headers
-    });
-  }
-  */
-
 
   getFriendlyName(resource: any){
     //get resource

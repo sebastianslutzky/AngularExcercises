@@ -1,4 +1,12 @@
 
+/**
+ * Represents an invoke-able menu action.
+ *  @WebResources
+ *  /services/%menu%/actions/%action% 
+ * @Events
+ *  actionInvoked
+ */
+
 import {NgModule,Component, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {Observable} from "rxjs/Observable";
@@ -30,14 +38,14 @@ export default class MenuActionComponent{
     }
 
     @Output()
-    invokeAction: EventEmitter<IActionInvocationRequest> = new EventEmitter();
+    actionInvoked: EventEmitter<IActionInvocationRequest> = new EventEmitter();
 
     invokeMethod(){
         let actionInvocation: IActionInvocationRequest = {
             actionName: this.ActionName 
         }
 
-        this.invokeAction.emit(actionInvocation)
+        this.actionInvoked.emit(actionInvocation)
     }
 
     constructor(private http: HttpClient){}

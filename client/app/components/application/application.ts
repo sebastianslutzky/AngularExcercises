@@ -1,3 +1,16 @@
+
+/**
+ * The entry point of the application. Represents the root workspace for the domain. 
+ * 
+ * @Children
+ * Top Menu (collection): a list of menus listed in the services resource.
+ * If one of the Top Menus emits the event onTopMenuObsolete, the top menu will be removed from the DOM
+ * 
+ *  @WebResources
+ *  /services
+ * 
+ */
+
 import {Component, ViewEncapsulation,ViewChild,ViewChildren,ElementRef,ComponentRef, 
   ViewContainerRef,ReflectiveInjector,ComponentFactoryResolver} from '@angular/core';
 import EntityComponent from "../../components/entity/entity" ;
@@ -17,6 +30,8 @@ export default class ApplicationComponent{
   dataSource: Observable<any>; 
   menus: any;
 
+  pageResourceUrl: string= "http://localhost:8080/restful/services/";
+
   topMenuCategories: Array<string>;
 
   menuItems(menu: string){
@@ -31,15 +46,12 @@ handleOnTopMenuObsolete(i: number){
   this.topMenuCategories.splice(i, 1);
 }
 
-
   constructor(public svc: FxService,
               private _cmpFctryRslvr: ComponentFactoryResolver,
               private http: Http,public http2: HttpClient){
       var invocation = new XMLHttpRequest();
 
-      var url = 'http://localhost:8080/restful/services/';
-
-      this.dataSource = this.http2.get(url).map(res=>res.json());
+      this.dataSource = this.http2.get(this.pageResourceUrl).map(res=>res.json());
   }
 
   ngOnInit(){
@@ -54,6 +66,8 @@ handleOnTopMenuObsolete(i: number){
 
         this.topMenuCategories = Object.keys(this.menus);
     });
+    
+    var layoutResource = this.http2.get("")
   }
 
   menuCategories(){
@@ -69,20 +83,6 @@ handleOnTopMenuObsolete(i: number){
       let cmp = this.createComponent(this._placeHolder, EntityComponent,resultEntity);
       this._placeHolder.insert(cmp.hostView);
     }
-  }
-
-  getFriendlyName(resource: any){
-    //get resource
-    //get described by
-    //return friendly name
-
-    let resourceId = resource.href;
-    console.log("about to get " + resourceId);
-    let fullResource = this.http2.get(resourceId).map(res=>res.json()).subscribe(data=> {return data});
- //   let fullResource = this.get(resourceId);
-  //  console.log(fullResource);
-   // console.log(fullResource.value);
-
   }
 
   //TODO: Move to ComponentFactory service

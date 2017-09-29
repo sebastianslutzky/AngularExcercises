@@ -1,4 +1,15 @@
 
+/**
+ * Contains a collection of menu entities. It monitors if one of this menu entities are empty of actions, and notifies so if true. 
+ *  @WebResources
+ *  None 
+ * 
+ * @Events
+ * onTopMenuObsolete 
+ * 
+ * NOTE: consider merging this class up (to the application) and/or down (to the menu entity)
+ */
+
 import {NgModule,Component, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import { HttpClient } from '../../services/httpService';

@@ -1,3 +1,11 @@
+/**
+ * Represents a Menu class, containing one or more invoke-able menu actions
+ *  @WebResources
+ *  /services/%menu%
+ * 
+ * @Events
+ *  onMenuEntityLoaded(numberOfActions)
+ */
 import {NgModule,Component, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
 import {HttpClient} from '../../services/httpService';
 import {Observable} from "rxjs/Observable";
